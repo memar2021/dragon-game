@@ -19,7 +19,7 @@
 <script>
 const canvas=document.getElementById("c"),ctx=canvas.getContext("2d"),btn=document.getElementById("restartBtn");
 function resize(){canvas.width=innerWidth;canvas.height=innerHeight}window.addEventListener("resize",resize);resize();
-const bg=new Image();bg.src="Marwan.png";bg.onload=()=>animate();
+const bg=new Image();bg.src="Mar.jpg";bg.onload=()=>animate();bg.onerror=()=>animate();
 const pointer={x:canvas.width/2,y:canvas.height/2};
 window.addEventListener("mousemove",e=>{pointer.x=e.clientX;pointer.y=e.clientY});
 window.addEventListener("touchmove",e=>{pointer.x=e.touches[0].clientX;pointer.y=e.touches[0].clientY});
@@ -32,7 +32,7 @@ window.addEventListener("click",fire);window.addEventListener("touchstart",fire)
 function animate(){requestAnimationFrame(animate);
 if(bg.complete&&bg.naturalWidth>0)ctx.drawImage(bg,0,0,canvas.width,canvas.height);else{ctx.fillStyle="#111";ctx.fillRect(0,0,canvas.width,canvas.height)}
 if(gameOver){ctx.fillStyle="red";ctx.font="bold 80px Arial";ctx.fillText("GAME OVER",canvas.width/2-220,canvas.height/2);
-ctx.fillStyle="white";ctx.font="bold 48px Arial";ctx.fillText("Score Mehdi : "+score,canvas.width/2-150,canvas.height/2+70);btn.style.display="block";return}
+ctx.fillStyle="white";ctx.font="bold 48px Arial";ctx.fillText("Score Memar2019 : "+score,canvas.width/2-200,canvas.height/2+70);btn.style.display="block";return}
 bossMode=Date.now()<bossUntil;
 const h=segments[0];h.x+=(pointer.x-h.x)*0.18;h.y+=(pointer.y-h.y)*0.18;
 for(let i=1;i<N;i++){const p=segments[i-1],s=segments[i],dx=p.x-s.x,dy=p.y-s.y,d=Math.hypot(dx,dy)||0.0001,k=(d-30)/d;s.x+=dx*k*0.7;s.y+=dy*k*0.7}
@@ -51,7 +51,7 @@ ctx.strokeStyle="red";ctx.lineWidth=6;ctx.stroke();
 const dx=h.x-apple.x,dy=h.y-apple.y;if(Math.hypot(dx,dy)<apple.r+30){score++;if(apple.boss)bossUntil=Date.now()+8000;const next=score>0&&score%5===0;apple=spawn(next);appleSpawnTime=Date.now()}
 if(Date.now()-appleSpawnTime>2000)gameOver=true;
 const el=(Date.now()-startTime)/1000,mm=Math.floor(el/60).toString().padStart(2,"0"),ss=Math.floor(el%60).toString().padStart(2,"0");
-ctx.fillStyle="white";ctx.font="bold 42px Arial";ctx.fillText("Score Mehdi : "+score,30,70);ctx.fillText("Temps : "+mm+":"+ss,30,130)}
+ctx.fillStyle="white";ctx.font="bold 42px Arial";ctx.fillText("Score Memar2019 : "+score,30,70);ctx.fillText("Temps : "+mm+":"+ss,30,130)}
 function spawn(boss=false){const m=40;return{x:Math.random()*(canvas.width-2*m)+m,y:Math.random()*(canvas.height-2*m)+m,r:boss?28:24,boss}}
 btn.addEventListener("click",()=>init());
 </script>
