@@ -46,10 +46,10 @@ ctx.fillStyle=bossMode?"gold":"black";ctx.beginPath();ctx.ellipse(0,0,40,28,0,0,
 ctx.beginPath();ctx.moveTo(-8,-14);ctx.lineTo(-28,-40);ctx.moveTo(8,-14);ctx.lineTo(28,-40);ctx.strokeStyle="white";ctx.lineWidth=4;ctx.stroke();
 ctx.fillStyle=bossMode?"yellow":"red";ctx.beginPath();ctx.arc(14,-8,7,0,Math.PI*2);ctx.fill();ctx.restore();
 ctx.fillStyle=apple.boss?"gold":"green";ctx.beginPath();ctx.arc(apple.x,apple.y,apple.r,0,Math.PI*2);ctx.fill();
-const tl=1500-(Date.now()-appleSpawnTime),ratio=Math.max(tl/2000,0);ctx.beginPath();ctx.arc(apple.x,apple.y,apple.r+14,-Math.PI/2,-Math.PI/2+2*Math.PI*ratio);
+const tl=1000-(Date.now()-appleSpawnTime),ratio=Math.max(tl/2000,0);ctx.beginPath();ctx.arc(apple.x,apple.y,apple.r+14,-Math.PI/2,-Math.PI/2+2*Math.PI*ratio);
 ctx.strokeStyle="red";ctx.lineWidth=6;ctx.stroke();
 const dx=h.x-apple.x,dy=h.y-apple.y;if(Math.hypot(dx,dy)<apple.r+30){score++;if(apple.boss)bossUntil=Date.now()+8000;const next=score>0&&score%5===0;apple=spawn(next);appleSpawnTime=Date.now()}
-if(Date.now()-appleSpawnTime>1500)gameOver=true;
+if(Date.now()-appleSpawnTime>1000)gameOver=true;
 const el=(Date.now()-startTime)/1000,mm=Math.floor(el/60).toString().padStart(2,"0"),ss=Math.floor(el%60).toString().padStart(2,"0");
 ctx.fillStyle="white";ctx.font="bold 42px Arial";ctx.fillText("Score Memar2019 : "+score,30,70);ctx.fillText("Temps : "+mm+":"+ss,30,130)}
 function spawn(boss=false){const m=40;return{x:Math.random()*(canvas.width-2*m)+m,y:Math.random()*(canvas.height-2*m)+m,r:boss?28:24,boss}}
@@ -57,5 +57,6 @@ btn.addEventListener("click",()=>init());
 </script>
 </body>
 </html>
+
 
 
