@@ -8,7 +8,7 @@
     canvas { display:block; touch-action:none; }
     #restartBtn {
       position:absolute; top:75%; left:50%; transform:translate(-50%,-50%);
-      padding:20px 40px; font-size:28px; background:red; color:white;
+      padding:25px 50px; font-size:32px; background:red; color:white;
       border:none; border-radius:12px; cursor:pointer; display:none;
     }
   </style>
@@ -19,40 +19,40 @@
 <script>
 const canvas=document.getElementById("c"),ctx=canvas.getContext("2d"),btn=document.getElementById("restartBtn");
 function resize(){canvas.width=innerWidth;canvas.height=innerHeight}window.addEventListener("resize",resize);resize();
-const bg=new Image();bg.src="Marwan.jpg";bg.onload=()=>animate();
+const bg=new Image();bg.src="Marwan.png";bg.onload=()=>animate();
 const pointer={x:canvas.width/2,y:canvas.height/2};
 window.addEventListener("mousemove",e=>{pointer.x=e.clientX;pointer.y=e.clientY});
 window.addEventListener("touchmove",e=>{pointer.x=e.touches[0].clientX;pointer.y=e.touches[0].clientY});
-const N=45;let segments,tailParticles,fireParticles,apple,score,startTime,bossMode,bossUntil,appleSpawnTime,gameOver;
-function init(){segments=Array.from({length:N},()=>({x:pointer.x,y:pointer.y}));tailParticles=[];fireParticles=[];
+const N=45;let segments,fireParticles,apple,score,startTime,bossMode,bossUntil,appleSpawnTime,gameOver;
+function init(){segments=Array.from({length:N},()=>({x:pointer.x,y:pointer.y}));fireParticles=[];
 apple=spawn(false);score=0;startTime=Date.now();bossMode=false;bossUntil=0;appleSpawnTime=Date.now();gameOver=false;btn.style.display="none"}init();
 function fire(){if(gameOver)return;const a=Math.atan2(pointer.y-segments[0].y,pointer.x-segments[0].x),c=bossMode?80:40;
 for(let i=0;i<c;i++)fireParticles.push({x:segments[0].x,y:segments[0].y,vx:Math.cos(a)*(Math.random()*10+6),vy:Math.sin(a)*(Math.random()*10+6),life:1,r:Math.random()*7+3})}
 window.addEventListener("click",fire);window.addEventListener("touchstart",fire);
 function animate(){requestAnimationFrame(animate);
 if(bg.complete&&bg.naturalWidth>0)ctx.drawImage(bg,0,0,canvas.width,canvas.height);else{ctx.fillStyle="#111";ctx.fillRect(0,0,canvas.width,canvas.height)}
-if(gameOver){ctx.fillStyle="red";ctx.font="72px Arial";ctx.fillText("GAME OVER",canvas.width/2-180,canvas.height/2);
-ctx.fillStyle="white";ctx.font="36px Arial";ctx.fillText("Score Mehdi : "+score,canvas.width/2-120,canvas.height/2+60);btn.style.display="block";return}
+if(gameOver){ctx.fillStyle="red";ctx.font="bold 80px Arial";ctx.fillText("GAME OVER",canvas.width/2-220,canvas.height/2);
+ctx.fillStyle="white";ctx.font="bold 48px Arial";ctx.fillText("Score Mehdi : "+score,canvas.width/2-150,canvas.height/2+70);btn.style.display="block";return}
 bossMode=Date.now()<bossUntil;
 const h=segments[0];h.x+=(pointer.x-h.x)*0.18;h.y+=(pointer.y-h.y)*0.18;
-for(let i=1;i<N;i++){const p=segments[i-1],s=segments[i],dx=p.x-s.x,dy=p.y-s.y,d=Math.hypot(dx,dy)||0.0001,k=(d-20)/d;s.x+=dx*k*0.7;s.y+=dy*k*0.7}
+for(let i=1;i<N;i++){const p=segments[i-1],s=segments[i],dx=p.x-s.x,dy=p.y-s.y,d=Math.hypot(dx,dy)||0.0001,k=(d-30)/d;s.x+=dx*k*0.7;s.y+=dy*k*0.7}
 ctx.lineCap="round";ctx.lineJoin="round";
 for(let i=1;i<N;i++){const a=segments[i-1],b=segments[i],t=1-i/N;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
-ctx.lineWidth=26*t+4;ctx.strokeStyle=bossMode?`rgba(255,${Math.floor(200*t)},0,0.85)`:`rgba(${Math.floor(200*t)},0,0,0.75)`;ctx.stroke()}
+ctx.lineWidth=50*t+10;ctx.strokeStyle=bossMode?`rgba(255,${Math.floor(200*t)},0,0.85)`:`rgba(${Math.floor(200*t)},0,0,0.75)`;ctx.stroke()}
 ctx.save();ctx.translate(h.x,h.y);const ang=Math.atan2(pointer.y-h.y,pointer.x-h.x);ctx.rotate(ang);const flap=Math.sin(Date.now()/200)*0.2;
-ctx.beginPath();ctx.moveTo(0,0);ctx.quadraticCurveTo(-120,-60+flap*40,-200,-20);ctx.quadraticCurveTo(-120,20+flap*40,0,0);ctx.fillStyle="rgba(255,255,255,0.15)";ctx.fill();
-ctx.beginPath();ctx.moveTo(0,0);ctx.quadraticCurveTo(120,-60-flap*40,200,-20);ctx.quadraticCurveTo(120,20-flap*40,0,0);ctx.fillStyle="rgba(255,255,255,0.15)";ctx.fill();
-ctx.fillStyle=bossMode?"gold":"black";ctx.beginPath();ctx.ellipse(0,0,30,20,0,0,Math.PI*2);ctx.fill();
-ctx.beginPath();ctx.moveTo(-6,-10);ctx.lineTo(-20,-30);ctx.moveTo(6,-10);ctx.lineTo(20,-30);ctx.strokeStyle="white";ctx.lineWidth=3;ctx.stroke();
-ctx.fillStyle=bossMode?"yellow":"red";ctx.beginPath();ctx.arc(10,-5,5,0,Math.PI*2);ctx.fill();ctx.restore();
+ctx.beginPath();ctx.moveTo(0,0);ctx.quadraticCurveTo(-150,-80+flap*50,-250,-30);ctx.quadraticCurveTo(-150,30+flap*50,0,0);ctx.fillStyle="rgba(255,255,255,0.2)";ctx.fill();
+ctx.beginPath();ctx.moveTo(0,0);ctx.quadraticCurveTo(150,-80-flap*50,250,-30);ctx.quadraticCurveTo(150,30-flap*50,0,0);ctx.fillStyle="rgba(255,255,255,0.2)";ctx.fill();
+ctx.fillStyle=bossMode?"gold":"black";ctx.beginPath();ctx.ellipse(0,0,40,28,0,0,Math.PI*2);ctx.fill();
+ctx.beginPath();ctx.moveTo(-8,-14);ctx.lineTo(-28,-40);ctx.moveTo(8,-14);ctx.lineTo(28,-40);ctx.strokeStyle="white";ctx.lineWidth=4;ctx.stroke();
+ctx.fillStyle=bossMode?"yellow":"red";ctx.beginPath();ctx.arc(14,-8,7,0,Math.PI*2);ctx.fill();ctx.restore();
 ctx.fillStyle=apple.boss?"gold":"green";ctx.beginPath();ctx.arc(apple.x,apple.y,apple.r,0,Math.PI*2);ctx.fill();
-const tl=2000-(Date.now()-appleSpawnTime),ratio=Math.max(tl/2000,0);ctx.beginPath();ctx.arc(apple.x,apple.y,apple.r+10,-Math.PI/2,-Math.PI/2+2*Math.PI*ratio);
-ctx.strokeStyle="red";ctx.lineWidth=4;ctx.stroke();
-const dx=h.x-apple.x,dy=h.y-apple.y;if(Math.hypot(dx,dy)<apple.r+22){score++;if(apple.boss)bossUntil=Date.now()+8000;const next=score>0&&score%5===0;apple=spawn(next);appleSpawnTime=Date.now()}
+const tl=2000-(Date.now()-appleSpawnTime),ratio=Math.max(tl/2000,0);ctx.beginPath();ctx.arc(apple.x,apple.y,apple.r+14,-Math.PI/2,-Math.PI/2+2*Math.PI*ratio);
+ctx.strokeStyle="red";ctx.lineWidth=6;ctx.stroke();
+const dx=h.x-apple.x,dy=h.y-apple.y;if(Math.hypot(dx,dy)<apple.r+30){score++;if(apple.boss)bossUntil=Date.now()+8000;const next=score>0&&score%5===0;apple=spawn(next);appleSpawnTime=Date.now()}
 if(Date.now()-appleSpawnTime>2000)gameOver=true;
 const el=(Date.now()-startTime)/1000,mm=Math.floor(el/60).toString().padStart(2,"0"),ss=Math.floor(el%60).toString().padStart(2,"0");
-ctx.fillStyle="white";ctx.font="24px Arial";ctx.fillText("Score Mehdi : "+score,20,40);ctx.fillText("Temps : "+mm+":"+ss,20,70)}
-function spawn(boss=false){const m=30;return{x:Math.random()*(canvas.width-2*m)+m,y:Math.random()*(canvas.height-2*m)+m,r:boss?18:15,boss}}
+ctx.fillStyle="white";ctx.font="bold 42px Arial";ctx.fillText("Score Mehdi : "+score,30,70);ctx.fillText("Temps : "+mm+":"+ss,30,130)}
+function spawn(boss=false){const m=40;return{x:Math.random()*(canvas.width-2*m)+m,y:Math.random()*(canvas.height-2*m)+m,r:boss?28:24,boss}}
 btn.addEventListener("click",()=>init());
 </script>
 </body>
